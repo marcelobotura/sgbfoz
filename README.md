@@ -1,107 +1,43 @@
-# Estrutura do Projeto SGBFOZ
+# Resumo do Projeto SGBFOZ
 
-## /sgbfoz | Estrutura de Diretórios
+O **SGBFOZ** é um sistema de gerenciamento para uma biblioteca comunitária, desenvolvido com a arquitetura **MVC** (Model-View-Controller), proporcionando uma estrutura modular, escalável e de fácil manutenção.
 
-### /app # Núcleo da aplicação (código principal e lógico)
-|-- /config # Configurações globais
-|   |-- app.php # Configurações gerais da aplicação (nome, timezone, etc.)
-|   |-- database.php # Configuração de conexão com o banco de dados
-|   |-- routes.php # Definição de todas as rotas da aplicação
-|   |-- security.php # Configurações de segurança (chaves de sessão, etc.)
-|   |-- services.php # Configuração de serviços/containers de dependência (opcional, para projetos maiores)
+## Estrutura do Sistema
 
-|-- /controllers # Lógica de controle (processa requisições e coordena models/views)
-|   |-- AuthController.php # Controlador para autenticação e autorização (login, logout, registro)
-|   |-- LivroController.php # Gerencia requisições relacionadas a livros
-|   |-- UsuarioController.php # Gerencia requisições relacionadas a usuários
-|   |-- EmprestimoController.php # Gerencia requisições relacionadas a empréstimos
-|   |-- DashboardController.php # Gerencia a lógica do dashboard principal
-|   |-- ErrorController.php # Lida com erros (404, 500, etc.)
+### **Arquitetura MVC**
+- **Model (Modelo)**: Responsável pela lógica de negócios e interação com o banco de dados. Ex: `Livro.php`, `Usuario.php`, `Emprestimo.php`.
+- **View (Visão)**: Templates HTML dinâmicos que gerenciam a interface do usuário. Ex: `login.php`, `dashboard/index.php`, `livros/show.php`.
+- **Controller (Controlador)**: Processa as requisições, interage com os models e carrega as views. Ex: `AuthController.php`, `LivroController.php`, `EmprestimoController.php`.
 
-|-- /core # Classes e componentes centrais do framework/aplicação
-|   |-- App.php # Classe principal da aplicação (inicializa, gerencia rotas)
-|   |-- Controller.php # Classe base para todos os controladores
-|   |-- Model.php # Classe base para todos os models (conexão DB, métodos comuns)
-|   |-- Router.php # Gerenciamento de rotas (parsing de URL, dispatch)
-|   |-- Request.php # Encapsula dados da requisição HTTP (GET, POST, FILES)
-|   |-- Response.php # Gerencia a resposta HTTP (headers, JSON, redirecionamentos)
-|   |-- Session.php # Utilitário para gerenciamento de sessão
-|   |-- View.php # Classe para renderização de views (passar dados, incluir templates)
-|   |-- Auth.php # Lógica de autenticação e autorização
-|   |-- ErrorHandler.php # Tratamento de erros e exceções
-|   |-- Utilities.php # Funções utilitárias diversas (sanitização, validação)
+### **Funcionalidades Criadas**
+- **Autenticação de Usuário**: Sistema de login e logout com validação de e-mail e senha. Gerenciado por `AuthController`.
+- **Cadastro de Livros**: Função de adicionar, editar e visualizar livros com campos como título, autor, ISBN e categorias.
+- **Controle de Empréstimos**: Registro de empréstimos de livros, com datas de retirada e devolução.
+- **Dashboard**: Visão geral do sistema com informações de livros, empréstimos e usuários.
 
-|-- /models # Lógica de negócio e interação com o banco de dados
-|   |-- Livro.php # Representa a entidade Livro, interage com a tabela 'livros'
-|   |-- Usuario.php # Representa a entidade Usuário, interage com a tabela 'usuarios'
-|   |-- Emprestimo.php # Representa a entidade Empréstimo, interage com a tabela 'emprestimos'
-|   |-- BaseModel.php # (Opcional) Model base com métodos CRUD genéricos
+### **Banco de Dados**
+- **Migrações**: Scripts para criar as tabelas no banco de dados (ex.: `2024_01_01_create_users_table.php`).
+- **Seeders**: Inserção de dados iniciais (ex.: usuários, livros, empréstimos) para facilitar o teste.
 
-|-- /views # Templates para exibição (HTML com dados dinâmicos)
-|   |-- /auth # Views relacionadas à autenticação
-|   |   |-- login.php
-|   |   |-- register.php # (Se aplicável)
-|   |-- /dashboard
-|   |   |-- index.php # Dashboard principal
-|   |-- /livros
-|   |   |-- index.php # Listagem de livros
-|   |   |-- create.php # Formulário para adicionar livro
-|   |   |-- edit.php # Formulário para editar livro
-|   |   |-- show.php # Detalhes de um livro
-|   |-- /usuarios
-|   |   |-- index.php # Listagem de usuários
-|   |   |-- create.php
-|   |   |-- edit.php
-|   |-- /emprestimos
-|   |   |-- index.php
-|   |   |-- create.php
-|   |   |-- edit.php
-|   |-- /partials # Partes de templates reutilizáveis (equivalente ao seu /includes)
-|   |   |-- header.php # Cabeçalho da página
-|   |   |-- footer.php # Rodapé da página
-|   |   |-- nav.php # Menu de navegação (seu menu.php)
-|   |   |-- messages.php # Para exibir mensagens de sucesso/erro (flash messages)
-|   |   |-- error.php # Página de erro genérica
+### **Organização do Projeto**
+- **Pasta `app/`**: Contém o núcleo da aplicação (controllers, models, views).
+- **Pasta `public/`**: Arquivo `index.php` e recursos estáticos (CSS, JS, imagens).
+- **Pasta `storage/`**: Arquivos gerados pela aplicação (logs, cache, sessões).
+- **Pasta `database/`**: Scripts de migração e inicialização do banco de dados.
 
-### /bootstrap # Arquivos de inicialização e autoload
-|-- app.php # Ponto de entrada para carregar a aplicação e serviços
-|-- autoload.php # Configuração de autoloader (pode ser via Composer)
-|-- constants.php # Definição de constantes globais (PATHs, etc.)
+### **Configurando o Ambiente**
+- **.env**: Variáveis de ambiente (ex.: credenciais do banco de dados).
+- **composer.json**: Gerenciamento de dependências via Composer.
 
-### /public # Ponto de entrada público do servidor web
-|-- .htaccess # Regras de reescrita de URL (para Apache)
-|-- index.php # O ÚNICO arquivo PHP acessível diretamente via navegador
-|-- /assets # Arquivos públicos (CSS, JS, imagens)
-|   |-- /css
-|   |   |-- style.css
-|   |-- /js
-|   |   |-- script.js
-|   |-- /images
-|   |   |-- logo.png
-|-- /vendor # (Se usar Composer) Arquivos de bibliotecas de terceiros (CSS/JS)
-|-- /uploads # Arquivos carregados pelo usuário (capas de livros, etc.)
+## Melhorias Implementadas
+- **Estrutura Modular**: Separação clara de responsabilidades, facilitando manutenção e escalabilidade.
+- **Autenticação de Usuário**: Login seguro com criptografia de senha.
+- **Interface Simples e Funcional**: Layout limpo para páginas como login, dashboard e listagem de livros.
+- **Fácil Expansão**: Sistema preparado para incluir novas funcionalidades, como filtros e exportação de relatórios.
 
-### /storage # Arquivos gerados pela aplicação (não públicos)
-|-- /logs # Logs de erro e debug
-|-- /cache # Arquivos de cache (se usados)
-|-- /sessions # Armazenamento de sessões (se não for via banco de dados)
+## Próximos Passos
+- **Melhorias no Frontend**: Tornar a interface mais atrativa e responsiva.
+- **Funcionalidades Avançadas**: Adicionar exportação de relatórios e integração com APIs externas como o Google Books.
+- **Segurança e Performance**: Implementar medidas de segurança (validação de dados) e melhorar a performance de consultas ao banco de dados.
 
-### /database # Scripts e configurações de banco de dados
-|-- /migrations # Scripts para gerenciar alterações no schema do DB
-|   |-- 2024_01_01_create_users_table.php
-|   |-- 2024_01_02_create_books_table.php
-|-- /seeders # Scripts para popular o DB com dados iniciais/falsos
-|   |-- UserSeeder.php
-|   |-- BookSeeder.php
-|-- schema.sql # Backup ou inicialização do schema (complementar a migrations)
-|-- initial_data.sql # Backup ou inicialização de dados (complementar a seeders)
-
-### /vendor # (Gerenciado pelo Composer) Bibliotecas de terceiros
-|-- autoload.php
-|-- ... (outras pastas de bibliotecas)
-|-- composer.json # Definição das dependências do Composer
-|-- composer.lock # Bloqueio das versões das dependências
-
-### Arquivos principais:
-|-- .env # Variáveis de ambiente (ex: credenciais DB, chaves API)
-|-- .gitignore # Arquivos e pastas a serem ignorados pelo Git
+---
